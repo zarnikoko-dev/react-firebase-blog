@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
+import {BrowserRouter as Router,Route,withRouter,Switch,NavLink} from 'react-router-dom'
+import ShowBlogs from './Components/ShowBlogs'
+import AddBlog from './Components/AddBlog'
+import Blog from './Components/Blog'
+import {Navbar,Nav} from 'react-bootstrap'
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Route render={({location,history})=>(
+        <React.Fragment>
+          <Navbar bg="dark" variant="dark">
+            <Navbar.Brand href="#" className="bg-secondary rounded p-1 text-light">
+              <i>React Firebase Blog</i>
+            </Navbar.Brand>
+            <Nav className="ml-auto mr-auto">
+              <Nav.Link as={NavLink} to="/" exact>Blogs</Nav.Link>
+              <Nav.Link as={NavLink} to="/add-blog">Add Blog</Nav.Link>
+            </Nav>
+            {/* <Form inline>
+              <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+              <Button variant="outline-info">Search</Button>
+            </Form> */}
+          </Navbar>
+          <div className="container bg-light mt-2">
+            <Switch>
+              <Route path="/" exact component={ShowBlogs} exact/>
+              <Route path="/add-blog" exact component={AddBlog} exact/>
+              <Route path="/blog" exact component={Blog} exact/>
+            </Switch>
+          </div>
+        </React.Fragment>
+      )}/>
+    </Router>
   );
 }
 
-export default App;
+export default withRouter(App);
