@@ -32,7 +32,6 @@ const AddBlogForm = () => {
     );
 
     const handleCategoriesChecked = (e,i) => {
-        console.log(i)
         if(e.target.checked){
             setSelectedCategories((prevSelectedCategories)=>{
                 return prevSelectedCategories.concat(e.target.value)
@@ -57,7 +56,6 @@ const AddBlogForm = () => {
     };
 
     const handleTagKeyDown = (e,i) => {
-        console.log(tagRef.current)
         if(e.keyCode === 13){ // enter
             if(e.target.value !== '' && stateTags.length-1 === i){
                 setTags((prevTags)=>{
