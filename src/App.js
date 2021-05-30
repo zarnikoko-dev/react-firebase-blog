@@ -17,7 +17,7 @@ function App(props) {
             </Navbar.Brand>
             <Nav className="ml-auto mr-auto">
               <Nav.Link as={NavLink} to="/" exact>Blogs</Nav.Link>
-              <Nav.Link as={NavLink} to="/add-blog">Add Blog</Nav.Link>
+              <Nav.Link as={NavLink} to="/add-blog" exact>Add Blog</Nav.Link>
             </Nav>
             {/* <Form inline>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -26,9 +26,9 @@ function App(props) {
           </Navbar>
           <div className="container bg-light mt-2">
             <Switch>
-              <Route path="/" exact component={ShowBlogs} exact/>
-              <Route path="/add-blog" exact component={AddBlog} exact/>
-              <Route path="/blog" exact component={Blog} exact/>
+              <Route path="/" exact component={ShowBlogs}/>
+              <Route path="/add-blog" exact component={AddBlog}/>
+              <Route path="/blog" exact component={Blog}/>
             </Switch>
           </div>
         </React.Fragment>
