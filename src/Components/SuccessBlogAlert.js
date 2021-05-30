@@ -4,7 +4,7 @@ import {AddBlogContext} from './AddBlogProvider';
 
 const SuccessBlogAlert = () => {
     const {reset,success} = useContext(AddBlogContext)
-    const [stateSuccess,setSuccess] = success;
+    const [stateSuccess] = success;
     return(
         <>
             {stateSuccess &&

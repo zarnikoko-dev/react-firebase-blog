@@ -4,11 +4,11 @@ import {AddBlogContext} from './AddBlogProvider';
 
 const AddBlogPreview = () => {
     const {title,contents,selectedAuthor,selectedCategories,tags} = useContext(AddBlogContext)
-    const [stateTitle,setTitle] = title;
-    const [stateContents,setContents] = contents;
-    const [stateSelectedAuthor,setSelectedAuthor] = selectedAuthor;
-    const [stateSelectedCategories,setSelectedCategories] = selectedCategories;
-    const [stateTags,setTags] = tags;
+    const [stateTitle] = title;
+    const [stateContents] = contents;
+    const [stateSelectedAuthor] = selectedAuthor;
+    const [stateSelectedCategories] = selectedCategories;
+    const [stateTags] = tags;
     return(
         <div className="mb-3 mt-3 bg-secondary p-5" style={{borderRadius:'15px',boxShadow:'5px 10px 8px #888888'}}>
             <h3 className="text-center mb-3 text-primary">Preview</h3>
