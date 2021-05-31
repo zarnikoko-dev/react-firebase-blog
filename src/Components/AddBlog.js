@@ -1,9 +1,9 @@
 import React, { useEffect, useRef} from 'react';
 import { withRouter } from 'react-router-dom';
-import AddBlogProvider from './AddBlogProvider'
-import AddBlogForm from './AddBlogForm'
+import AddBlogProvider from './AddBlogProvider';
+import AddBlogForm from './AddBlogForm';
 import AddBlogPreview from './AddBlogPreview';
-import SuccessBlogAlert from './SuccessBlogAlert';
+import AddBlogSuccessAlert from './AddBlogSuccessAlert';
 
 // const usePrevious = value => {
 //     const ref = useRef();
@@ -31,7 +31,7 @@ const AddBlog = (props)=> {
 
     return(
         <AddBlogProvider>
-            <SuccessBlogAlert/>
+            <AddBlogSuccessAlert/>
             <AddBlogForm/>
             <AddBlogPreview/>
         </AddBlogProvider>
