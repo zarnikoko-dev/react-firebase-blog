@@ -2,7 +2,7 @@ import React, { useContext} from 'react'
 import {AddBlogContext} from './AddBlogProvider';
 
 
-const SuccessBlogAlert = () => {
+const AddBlogSuccessAlert = () => {
     const {reset,success} = useContext(AddBlogContext)
     const [stateSuccess] = success;
     return(
@@ -19,4 +19,4 @@ const SuccessBlogAlert = () => {
     )
 }
 
-export default SuccessBlogAlert
+export default AddBlogSuccessAlert
