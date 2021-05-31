@@ -11,12 +11,10 @@ const AddBlogProvider = (props) => {
     const [tags,setTags] = useState(['']);
 
     const reset = () => {
-        setTitle('');
-        setContents('');
-        setSelectedAuthor('');
-        setSelectedCategories([]);
-        setTags([''])
-        setSuccess(false)
+        props.newForm((prevForm)=>{
+            const newForm = prevForm + 1;
+            return newForm;
+        })
     }
     return(
         <AddBlogContext.Provider

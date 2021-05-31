@@ -1,6 +1,38 @@
-import React, { useContext,useRef,useState } from 'react'
+import React, { useContext,useEffect,useRef,useState } from 'react'
 import {AddBlogContext} from './AddBlogProvider';
 import axios from '../axiosConfig'
+
+const useLiveValidate = (value,field) => {
+    if(typeof field !== 'string' || field === ''){
+        field = 'This field ';
+    }
+    const _mounted = useRef(false)
+    const [message,setMessage] = useState({value:'',show:false})
+    useEffect(()=>{
+        if(!_mounted.current){  
+            _mounted.current = true
+            if(value === '' ){
+                setMessage({
+                    value : `${field} is required`,
+                    show : false
+                })
+            }
+        }else{
+            if(value === '' ){
+                setMessage({
+                    value : `${field} is required`,
+                    show : true
+                })
+            }else{
+                setMessage({
+                    value : '',
+                    show : false
+                })
+            }
+        }
+    },[value]);
+    return [message,setMessage];
+}
 
 const AddBlogForm = () => {
     const [isPosting,setIsPosting] = useState(false);
@@ -25,6 +57,11 @@ const AddBlogForm = () => {
     const [stateSelectedAuthor,setSelectedAuthor] = selectedAuthor;
     const [stateSelectedCategories,setSelectedCategories] = selectedCategories;
     const [stateTags,setTags] = tags;
+    const errMsg = {
+        title : useLiveValidate(stateTitle,'Title'),
+        contents : useLiveValidate(stateContents,'Contents'),
+        author : useLiveValidate(stateSelectedAuthor,'Author'),
+    };
     const tagRef = useRef([]);
 
     tagRef.current = stateTags.map((v,i)=>
@@ -100,6 +137,24 @@ const AddBlogForm = () => {
 
     const handleSubmit = async (e) => {
         setIsPosting(true)
+        let error = false;
+        for(const key in errMsg){
+            if(errMsg[key][0].value !== '' && !errMsg[key][0].show){
+                errMsg[key][1]((msg)=>{
+                    return {
+                       ...msg,
+                       show : true
+                    }
+                });
+                error = true;
+            }else if(errMsg[key][0].value !== ''){
+                error = true;
+            }
+        }
+        if(error){
+            setIsPosting(false)
+            return false;
+        }
         try{
             const response =  await axios.post('/blogs.json',{
                 title:stateTitle,
@@ -128,28 +183,34 @@ const AddBlogForm = () => {
                             <div className="col-sm-8">
                                 <input 
                                     type="text" 
-                                    className="form-control" 
+                                    className={"form-control"+(errMsg.title[0].show ? ' is-invalid' : '')}
                                     value={stateTitle}
                                     onChange={(e)=>setTitle(e.target.value)}
                                     placeholder="Enter Blog Title ..." autoFocus  />
+                                <div className="invalid-feedback">
+                                    {errMsg.title[0].value}
+                                </div>
                             </div>
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-2 col-form-label text-center">Contents: </label>
                             <div className="col-sm-8">
                                 <textarea 
-                                    className="form-control" 
+                                    className={"form-control"+(errMsg.contents[0].show ? ' is-invalid' : '')} 
                                     rows="5" 
                                     placeholder="Blog Contents"
                                     value={stateContents}
                                     onChange={(e)=>setContents(e.target.value)}
                                 />
+                                <div className="invalid-feedback">
+                                    {errMsg.contents[0].value}
+                                </div>
                             </div>
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-2 col-form-label text-center">Author: </label>
                             <div className="col-sm-8">
-                                <select className="form-control" onChange={(e)=>setSelectedAuthor(e.target.value)}>
+                                <select className={"form-control"+(errMsg.author[0].show ? ' is-invalid' : '')}  onChange={(e)=>setSelectedAuthor(e.target.value)}>
                                     <option value="">Select Author</option>
                                     {authors.map((author,i)=>{
                                         return <option value={author} key={i}>
@@ -157,6 +218,9 @@ const AddBlogForm = () => {
                                         </option>
                                     })}
                                 </select>
+                                <div className="invalid-feedback">
+                                    {errMsg.author[0].value}
+                                </div>
                             </div>
                         </div>
                         <div className="form-group row">

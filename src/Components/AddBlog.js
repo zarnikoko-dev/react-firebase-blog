@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react';
+import React, { useEffect, useRef , useState} from 'react';
 import { withRouter } from 'react-router-dom';
 import AddBlogProvider from './AddBlogProvider';
 import AddBlogForm from './AddBlogForm';
@@ -17,6 +17,7 @@ import AddBlogSuccessAlert from './AddBlogSuccessAlert';
 
 const AddBlog = (props)=> {
     const _mounted = useRef(false);
+    const [form,setForm] = useState(1);
     // const prevTags = usePrevious(tags);
     useEffect(()=>{
         if(!_mounted.current){
@@ -30,7 +31,7 @@ const AddBlog = (props)=> {
     },[]);
 
     return(
-        <AddBlogProvider>
+        <AddBlogProvider newForm={setForm} key={form}>
             <AddBlogSuccessAlert/>
             <AddBlogForm/>
             <AddBlogPreview/>
